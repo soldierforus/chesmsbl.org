@@ -1,0 +1,39 @@
+.wrapper
+  div#topBar
+    div.container
+      ul.top-links.list-inline.pull-right
+        li.text-welcome.hidden Welcome,
+          strong  Slug
+        li.hidden-xs: a(href="/login") LOGIN
+        li.hidden-xs: a(href="/register") REGISTER
+        li.hidden-xs: a(href="/faq") FAQ
+
+  div#header.sticky.clearfix
+    header#topNav
+      div.container
+        button.btn.btn-mobile(data-toggle='collapse' data-target='.nav-main-collapse')
+          i.fa.fa-bars
+        ul.pull-right.nav.nav-pills.nav-second-main
+          // SEARCH
+          li.search
+            a(href='javascript:;')
+              i.fa.fa-search
+            div.search-box
+              form(action='page-search-result-1.html' method='get')
+                div.input-group
+                  input.form-control(type='text' name='src' placeholder='Search...')
+                  span.input-group-btn
+                    button.btn.btn-primary(type='submit') Search
+          // SEARCH-END
+
+          // SIGN-IN/ACCOUNT
+
+        // LOGO
+        a.logo.pull-left(href='/'): img(src="/assets/images/logo-header.png" alt="Chesapeake Men's Baseball League")
+
+        // TOPNAV
+        div.navbar-collapse.pull-right.nav-main-collapse.collapse
+          nav.nav-main
+            ul#topMain.nav.nav-pills.nav-main
+              include navigation
+        // TOPNAV-END

@@ -1,0 +1,54 @@
+footer#footer
+  div.container
+    div.row
+      div.col-md-8
+        img.footer-logo.footer-2(src="assets/images/logo-footer.png" alt="")
+        p Founded in 1989, the Chesapeake MSBL is a 501(c)3 Non-Profit Corporation located in Maryland and celebrates 29 years of amateur adult baseball in 2017.
+        hr
+        div.row
+          div.col-md-6.col-sm-6
+            p.margin-bottom-10 Subscribe to Our
+              strong  Newsletter
+            form#newsletterForm(action="php/newsletter.php" role="form" method="post")
+              div.input-group
+                span.input-group-addon: i.fa.fa-envelope
+                input.form-control(type="email" id="email" name="email" placeholder="Enter your Email" required="required")
+                span.input-group-btn: button.btn.btn-primary(type="submit") Subscribe
+          div.col-md-6.col-sm-6.hidden-xs
+            div.margin-left-50.clearfix
+              p.margin-bottom-10 Follow Us
+              a.social-icon.social-icon-sm.social-icon-transparent.social-facebook.pull-left(href="#" data-toggle="tooltip" data-placement="top" title="Facebook")
+                i.icon-facebook
+                i.icon-facebook
+              a.social-icon.social-icon-sm.social-icon-transparent.social-instagram.pull-left(href="#" data-toggle="tooltip" data-placement="top" title="Instagram")
+                i.icon-instagram
+                i.icon-instagram
+              a.social-icon.social-icon-sm.social-icon-transparent.social-twitter.pull-left(href="#" data-toggle="tooltip" data-placement="top" title="Twitter")
+                i.icon-twitter
+                i.icon-twitter
+              a.social-icon.social-icon-sm.social-icon-transparent.social-gplus.pull-left(href="#" data-toggle="tooltip" data-placement="top" title="Google+")
+                i.icon-gplus
+                i.icon-gplus
+      div.col-md-4
+        h4.letter-spacing-1 CONTACT US
+
+        // CONTACT MESSAGES
+        p#alert_success.alert.alert-success.alert-mini Message sent! Thank You!
+        p#alert_failed.alert.alert-danger.alert-mini Message not sent!
+        p#alert_mandatory.alert.alert-danger.alert-mini Please, complete all mandatory fields
+
+        // CONTACT FORM
+        form.validate(method="post" action="https://formspree.io/admin@chesmsbl.org" data-success="Message sent! Thank You!")
+          input.form-control.required(type="text" value="" placeholder="Name*" maxlength="100" name="name")
+          input.form-control.required(type="email" value="" placeholder="Email*" data-msg-email="Please enter a valid email address." name="_replyto")
+          textarea.form-control.required(maxlength="5000" placeholder="Message*" rows="3" name="message")
+          input(type="hidden" name="_subject" value="New Submission - Footer Contact Form")
+          input(type="hidden" name="_next" value="//chesmsbl.org/thanks")
+          input(type="text" name="_gotcha" style="display:none")
+          input.btn.btn-success(type="submit" value="SUBMIT MESSAGE")
+  div.copyright
+    div.container
+      ul.list-inline.inline-links.mobile-block.pull-right.nomargin
+        li: a(href="#") Terms & Conditions
+        li: a(href="#") Privacy
+      | &copy; All Rights Reserved, Chesapeake Men's Senior Baseball League, Inc.

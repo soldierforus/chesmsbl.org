@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  // SLIDER
+  section#slider.height-700.parallax.parallax-2.parallax-slider(style="background-image:url('assets/images/homeplate.jpg')")
+    div.display-table
+      div.display-table-cell.vertical-align-middle
+        div.container
+          div.row
+            div.text-center.col-md-8.col-xs-12.col-md-offset-2
+              h1.bold.font-raleway.wow.fadeInUp(data-wow-delay="0.4s") PLAY BALL!
+              p.lead.font-lato.weight-300.hidden-xs.wow.fadeInUp(data-wow-delay="0.6s") We are currently accepting new and returning players for the 2017 season.
+              a.btn.btn-default.btn-lg.wow.fadeIn(data-wow-delay="1.5s" href="/register") REGISTER NOW
+  // SUBSCRIBE
+  section.alternate.padding-xxs
+    .container
+      .row.text-center
+        .col-lg-4.col-sm-8.col-lg-offset-4.col-md-offset-2.col-sm-offset-2
+          h5.letter-spacing-1 SUBSCRIBE TO OUR NEWSLETTER
+          .input-group
+            input#newsletter_subscribe_email.form-control(type="text" placeholder="Type your email...")
+            span.input-group-btn: button#newsletter_subscribe_btn.btn.btn-primary(type="button") SUBSCRIBE
