@@ -71,6 +71,14 @@ mongoose.connection.on('error', (err) => {
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+// Redirect HTTP to HTTPS
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV === 'production' && req.headers['x-forwarded-proto'] !== 'https') {
+    return res.redirect(`https://${req.hostname}${req.originalUrl}`);
+  }
+  next();
+});
 app.use(expressStatusMonitor());
 app.use(compression());
 app.use(sass({
