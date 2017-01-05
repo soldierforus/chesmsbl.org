@@ -1,9 +1,11 @@
-const mongoose = require('mongoose');
-const {expect} = require('chai');
+const chai = require('chai');
 const sinon = require('sinon');
+
 require('sinon-mongoose');
 
 const User = require('../models/User');
+
+const expect = chai.expect;
 
 describe('User Model', () => {
   it('should create a new user', (done) => {
@@ -14,7 +16,7 @@ describe('User Model', () => {
       .expects('save')
       .yields(null);
 
-    user.save(function (err, result) {
+    user.save((err) => {
       UserMock.verify();
       UserMock.restore();
       expect(err).to.be.null;
@@ -81,7 +83,7 @@ describe('User Model', () => {
       userMock.restore();
       expect(result.email).to.equal('test@gmail.com');
       done();
-    })
+    });
   });
 
   it('should remove user by email', (done) => {
@@ -101,6 +103,95 @@ describe('User Model', () => {
       expect(err).to.be.null;
       expect(result.nRemoved).to.equal(1);
       done();
-    })
+    });
+  });
+
+  it('should fail if email is not provided', (done) => {
+    const user = new User();
+
+    user.validate((err) => {
+      expect(err.errors.email).to.exist;
+      done();
+    });
+  });
+
+  it('should consider positions optional', (done) => {
+    const user = new User({ email: 'test@example.com' });
+    user.validate((err) => {
+      expect(err).to.be.null;
+      done();
+    });
+  });
+
+  it('should validate positions', (done) => {
+    const user = new User({
+      email: 'text@example.com',
+      profile: {
+        player: {
+          positions: ['C', '1B', 'RF'],
+        },
+      },
+    });
+
+    user.validate((err) => {
+      expect(err).to.be.null;
+      done();
+    });
+  });
+
+  it('should fail on invalid positions', (done) => {
+    const user = new User({
+      email: 'text@example.com',
+      profile: {
+        player: {
+          positions: ['EH'],
+        },
+      },
+    });
+
+    user.validate((err) => {
+      expect(err.errors['profile.player.positions']).to.exist;
+      done();
+    });
+  });
+
+  it('should consider experience optional', (done) => {
+    const user = new User({ email: 'test@example.com' });
+    user.validate((err) => {
+      expect(err).to.be.null;
+      done();
+    });
+  });
+
+  it('should validate experience', (done) => {
+    const user = new User({
+      email: 'text@example.com',
+      profile: {
+        player: {
+          experience: ['High School'],
+        },
+      },
+    });
+
+    user.validate((err) => {
+      expect(err).to.be.null;
+      done();
+    });
+  });
+
+  it('should fail on invalid experience', (done) => {
+    const user = new User({
+      email: 'text@example.com',
+      profile: {
+        player: {
+          experience: ['MLB'],
+        },
+      },
+    });
+
+    user.validate((err) => {
+      expect(err.errors['profile.player.experience']).to.exist;
+      done();
+    });
   });
 });

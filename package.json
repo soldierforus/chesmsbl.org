@@ -74,6 +74,11 @@
       "no-shadow": 0,
       "no-console": 0,
       "no-plusplus": 0
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "mocha": true
     }
   }
 }
