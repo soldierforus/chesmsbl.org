@@ -4,6 +4,41 @@ block content
   section.page-header: div.container
     h1 LOGIN
   section: div.container
-    h2: strong Temporarily Disabled
-    p Please check back later.
-    p Login is currently disabled while we perform maintenance on the authorization service. We're sorry for any inconvenience this might cause and are working as quickly as possible to restore the service.
+    div.row
+      div.col-md-6.col-sm-6
+        form.sky-form.boxed(action="#" method="post")
+          header.size-18.margin-bottom-20 I'm a returning user
+          fieldset.nomargin
+            label.input.margin-bottom-10
+              i.ico-append.fa.fa-envelope
+              input(required type="email" placeholder="Email address")
+              b.tooltip.tooltip-bottom-right Needed to verify your account
+            label.input.margin-bottom-10
+              i.ico-append.fa.fa-lock
+              input(required type="password" placeholder="Password")
+              b.tooltip.tooltip-bottom-right Only letters, numbers, and special characters
+            div.clearfix.note.margin-bottom-30
+              a.pull-right(href="/forgot") Forgot Password?
+            label.checkbox.weight-300
+              input(type="checkbox" name="checkbox-inline")
+              i
+              | Keep me logged in
+          footer: button.btn.btn-primary.noradius.pull-right(type="submit")
+            i.fa.fa-check
+            |  OK, LOG IN
+      div.col-md-6.col-sm-6
+        form.sky-form.boxed(action="#" method="post")
+          header.size-18.margin-bottom-20 Sign in with a social provider
+          fieldset.nomargin
+            div.row
+              div.col-md-8.col-md-offset-2
+                a.btn.btn-block.btn-social.btn-facebook.margin-bottom-10
+                  i.fa.fa-facebook
+                  |  Sign in with Facebook
+                a.btn.btn-block.btn-social.btn-google.margin-bottom-10
+                  i.fa.fa-google
+                  |  Sign in with Google
+          footer
+            | Don't have an account yet?
+            a(href="/register"): strong
+              |  Click to register!
