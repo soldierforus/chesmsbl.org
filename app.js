@@ -186,6 +186,13 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRe
   res.redirect(req.session.returnTo || '/');
 });
 */
+app.get('/auth/callback', passport.authenticate('auth0', { failureRedirect: '/login' }), (req, res) => {
+  if (!req.user) {
+    throw new Error('user null');
+  }
+  console.log(req.user);
+  res.redirect('/account');
+});
 app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
   res.redirect(req.session.returnTo || '/');
