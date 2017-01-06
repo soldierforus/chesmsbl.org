@@ -19,6 +19,7 @@ const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
+const rollbar = require('rollbar');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
@@ -216,7 +217,11 @@ app.get('*', notFoundController.index);
 /**
  * Error Handler.
  */
-app.use(errorHandler());
+if (process.env.NODE_ENV === 'development') {
+  app.use(errorHandler());
+} else {
+  app.use(rollbar.errorHandler(process.env.ROLLBAR_ACCESS_TOKEN));
+}
 
 /**
  * Start Express server.
