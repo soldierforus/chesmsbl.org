@@ -132,6 +132,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+app.get('/assets/plugins/auth0/auth0.min.js', (req, res) => res.sendFile(path.join(__dirname, 'node_modules/auth0-js/build/auth0.min.js')));
 
 /**
  * Primary app routes.

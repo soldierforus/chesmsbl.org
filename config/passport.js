@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const passport = require('passport');
+const Auth0Strategy = require('passport-auth0');
 const LocalStrategy = require('passport-local').Strategy;
 // const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
@@ -7,14 +8,29 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const User = require('../models/User');
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user);
 });
 
-passport.deserializeUser((id, done) => {
+passport.deserializeUser((user, done) => {
+  /*
   User.findById(id, (err, user) => {
     done(err, user);
   });
+  */
+  done(null, user);
 });
+
+passport.use(new Auth0Strategy({
+  domain: process.env.AUTH0_DOMAIN,
+  clientID: process.env.AUTH0_CLIENT_ID,
+  clientSecret: process.env.AUTH0_CLIENT_SECRET,
+  callbackURL: process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
+}, (accessToken, refreshToken, extraParams, profile, done) => (
+  // accessToken is the token to call Auth0 API (not needed in the most cases)
+  // extraParams.id_token has the JSON Web Token
+  // profile has all the information from the user
+  done(null, profile)
+)));
 
 /**
  * Sign in using Email and Password.
