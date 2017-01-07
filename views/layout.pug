@@ -27,13 +27,13 @@ doctype html
     link(rel='stylesheet' type='text/css' href='assets/css/header-4.css')
     link(rel='stylesheet' type='text/css' href='assets/css/color_scheme/red.css' id='color_scheme')
 
-    script.
+    script(type='text/javascript').
       var _rollbarConfig = {
           accessToken: "f932d36a6e6c432b86de49d0f13b3fd2",
           captureUncaught: true,
           captureUnhandledRejections: true,
           payload: {
-              environment: "production"
+              environment: "#{env.NODE_ENV || 'development'}"
           }
       };
       // Rollbar Snippet
