@@ -27,5 +27,9 @@ test:
 deployment:
   production:
     branch: master
-    heroku:
-      appname: chesmsbl-org
+    commands:
+      - heroku maintenance:on --app chesmsbl-org
+      - heroku scale worker=0 --app chesmsbl-org
+      - git push git@heroku.com:chesmsbl-org.git $CIRCLE_SHA1:refs/heads/master
+      - heroku scale worker=1 --app chesmsbl-org
+      - heroku maintenance:off --app chesmsbl-org
