@@ -1,6 +1,7 @@
 /**
  * Module dependencies.
  */
+const newrelic = require('newrelic');
 const express = require('express');
 const compression = require('compression');
 const session = require('express-session');

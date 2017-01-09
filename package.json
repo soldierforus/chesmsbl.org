@@ -37,6 +37,7 @@
     "mongoose": "^4.6.6",
     "morgan": "^1.7.0",
     "multer": "^1.2.0",
+    "newrelic": "^1.36.0",
     "node-sass-middleware": "^0.9.8",
     "nodemailer": "^2.6.4",
     "passport": "0.3.2",
