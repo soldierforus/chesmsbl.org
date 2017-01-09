@@ -1,4 +1,4 @@
-li.dropdown
+li(class= path === "info" ? "active" : "").dropdown
   a.dropdown-toggle(href='#'): span.theme-color INFO
   ul.dropdown-menu
     li: a(href="/rules") League Rules
@@ -7,12 +7,18 @@ li.dropdown
     li: a(href="/allstar") All-Star Game
     li: a(href="/halloffame") Hall of Fame
     li: a(href="/organization") Organization Information
-li: a(href='/schedule'): span.theme-color SCHEDULE
-li.dropdown
+li(class= path === "/schedule" ? "active" : ""): a(href='/schedule'): span.theme-color SCHEDULE
+li(class= path === "/standings" ? "active" : "").dropdown
   a.dropdown-toggle(href='/standings'): span.theme-color STANDINGS
   ul.dropdown-menu
     li: a(href="/standings?regular") Regular Season
     li: a(href="/standings?playoffs") Playoffs
-li: a(href='/teams'): span.theme-color TEAMS
-li: a(href='/sponsors'): span.theme-color SPONSORS
-li: a(href='/contact'): span.theme-color CONTACT
+li(class= path === "/teams" ? "active" : ""): a(href='/teams'): span.theme-color TEAMS
+li(class= path === "/sponsors" ? "active" : ""): a(href='/sponsors'): span.theme-color SPONSORS
+li.hidden-md.hidden-lg.hidden-xl(class= path === "/faq" ? "active" : ""): a(href='/faq'): span.theme-color FAQ
+if user
+  li.hidden-md.hidden-lg.hidden-xl(class= path === "/account" ? "active" : ""): a(href='/account'): span.theme-color MY ACCOUNT
+  li.hidden-md.hidden-lg.hidden-xl: a(href='/logout'): span.theme-color LOGOUT
+else
+  li.hidden-md.hidden-lg.hidden-xl(class= path === "/login" ? "active" : ""): a(href='/login'): span.theme-color LOGIN
+  li.hidden-md.hidden-lg.hidden-xl(class= path === "/register" ? "active" : ""): a(href='/register'): span.theme-color REGISTER

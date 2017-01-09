@@ -1,11 +1,8 @@
 const _ = require('lodash');
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
-const LocalStrategy = require('passport-local').Strategy;
-// const FacebookStrategy = require('passport-facebook').Strategy;
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-const User = require('../models/User');
+// const User = require('../models/User');
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -20,39 +17,8 @@ passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
-passport.use(new Auth0Strategy({
-  domain: process.env.AUTH0_DOMAIN,
-  clientID: process.env.AUTH0_CLIENT_ID,
-  clientSecret: process.env.AUTH0_CLIENT_SECRET,
-  callbackURL: process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
-}, (accessToken, refreshToken, extraParams, profile, done) => (
-  // accessToken is the token to call Auth0 API (not needed in the most cases)
-  // extraParams.id_token has the JSON Web Token
-  // profile has all the information from the user
-  done(null, profile)
-)));
-
 /**
- * Sign in using Email and Password.
- */
-passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
-  User.findOne({ email: email.toLowerCase() }, (err, user) => {
-    if (err) { return done(err); }
-    if (!user) {
-      return done(null, false, { msg: `Email ${email} not found.` });
-    }
-    user.comparePassword(password, (err, isMatch) => {
-      if (err) { return done(err); }
-      if (isMatch) {
-        return done(null, user);
-      }
-      return done(null, false, { msg: 'Invalid email or password.' });
-    });
-  });
-}));
-
-/**
- * OAuth Strategy Overview
+ * Auth Strategy Overview
  *
  * - User is already logged in.
  *   - Check if there is an existing account with a provider id.
@@ -66,70 +32,24 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, don
  *       - Else create a new account.
  */
 
-/**
- * Sign in with Facebook.
-
-passport.use(new FacebookStrategy({
-  clientID: process.env.FACEBOOK_ID,
-  clientSecret: process.env.FACEBOOK_SECRET,
-  callbackURL: '/auth/facebook/callback',
-  profileFields: ['name', 'email', 'link', 'locale', 'timezone'],
-  passReqToCallback: true
-}, (req, accessToken, refreshToken, profile, done) => {
-  if (req.user) {
-    User.findOne({ facebook: profile.id }, (err, existingUser) => {
-      if (err) { return done(err); }
-      if (existingUser) {
-        req.flash('errors', { msg: 'There is already a Facebook account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
-        done(err);
-      } else {
-        User.findById(req.user.id, (err, user) => {
-          if (err) { return done(err); }
-          user.facebook = profile.id;
-          user.tokens.push({ kind: 'facebook', accessToken });
-          user.profile.name = user.profile.name || `${profile.name.givenName} ${profile.name.familyName}`;
-          user.profile.gender = user.profile.gender || profile._json.gender;
-          user.profile.picture = user.profile.picture || `https://graph.facebook.com/${profile.id}/picture?type=large`;
-          user.save((err) => {
-            req.flash('info', { msg: 'Facebook account has been linked.' });
-            done(err, user);
-          });
-        });
-      }
-    });
-  } else {
-    User.findOne({ facebook: profile.id }, (err, existingUser) => {
-      if (err) { return done(err); }
-      if (existingUser) {
-        return done(null, existingUser);
-      }
-      User.findOne({ email: profile._json.email }, (err, existingEmailUser) => {
-        if (err) { return done(err); }
-        if (existingEmailUser) {
-          req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with Facebook manually from Account Settings.' });
-          done(err);
-        } else {
-          const user = new User();
-          user.email = profile._json.email;
-          user.facebook = profile.id;
-          user.tokens.push({ kind: 'facebook', accessToken });
-          user.profile.name = `${profile.name.givenName} ${profile.name.familyName}`;
-          user.profile.gender = profile._json.gender;
-          user.profile.picture = `https://graph.facebook.com/${profile.id}/picture?type=large`;
-          user.profile.location = (profile._json.location) ? profile._json.location.name : '';
-          user.save((err) => {
-            done(err, user);
-          });
-        }
-      });
-    });
-  }
+passport.use(new Auth0Strategy({
+  domain: process.env.AUTH0_DOMAIN,
+  clientID: process.env.AUTH0_CLIENT_ID,
+  clientSecret: process.env.AUTH0_CLIENT_SECRET,
+  callbackURL: process.env.AUTH0_CALLBACK_URL,
+}, (accessToken, refreshToken, extraParams, profile, done) => {
+  // accessToken is the token to call Auth0 API (not needed in the most cases)
+  // extraParams.id_token has the JSON Web Token
+  // profile has all the information from the user
+  console.log('extraParams:', extraParams);
+  console.log('Profile:', profile);
+  return done(null, profile);
 }));
-*/
 
 /**
  * Sign in with Google.
  */
+/*
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_ID,
   clientSecret: process.env.GOOGLE_SECRET,
@@ -184,12 +104,14 @@ passport.use(new GoogleStrategy({
     });
   }
 }));
+*/
 
 /**
  * Login Required middleware.
  */
 exports.isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
+    res.locals.user = req.user;
     return next();
   }
   res.redirect('/login');

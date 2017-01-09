@@ -2,11 +2,16 @@
   div#topBar
     div.container
       ul.top-links.list-inline.pull-right
-        li.text-welcome.hidden Welcome,
-          strong  Slug
-        li.hidden-xs: a(href="/login") LOGIN
-        li.hidden-xs: a(href="/register") REGISTER
+        if user
+          li.text-welcome.hidden-xs Welcome,
+            strong  #{user.displayName}
+          li.hidden-xs: a(href="/account") MY ACCOUNT
+          li.hidden-xs: a(href="/logout") LOGOUT
+        else
+          li.hidden-xs: a(href="/login") LOGIN
+          li.hidden-xs: a(href="/register") REGISTER
         li.hidden-xs: a(href="/faq") FAQ
+
 
   div#header.sticky.clearfix
     header#topNav
@@ -18,6 +23,7 @@
           li.search
             a(href='javascript:;')
               i.fa.fa-search
+              span.hidden-xs Search
             div.search-box
               form(action='page-search-result-1.html' method='get')
                 div.input-group

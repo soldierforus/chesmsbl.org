@@ -4,6 +4,7 @@
  */
 exports.rules = (req, res) => {
   res.render('rules', {
+    path: 'info',
     title: 'League Rules'
   });
 };
@@ -14,6 +15,7 @@ exports.rules = (req, res) => {
  */
 exports.fields = (req, res) => {
   res.render('fields', {
+    path: 'info',
     title: 'Field Information'
   });
 };

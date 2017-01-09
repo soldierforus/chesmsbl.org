@@ -4,6 +4,7 @@
  */
 exports.index = (req, res) => {
   res.render('teams', {
+    path: req.path,
     title: 'Teams'
   });
 };

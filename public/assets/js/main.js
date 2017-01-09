@@ -1,5 +1,3 @@
-$(document).ready(function() {
-
-  // Place JavaScript code here...
-
+$(document).ready(() => {
+  $('.crisp-client').addClass('hidden-xs');
 });

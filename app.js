@@ -132,7 +132,6 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
-app.get('/assets/plugins/auth0/auth0.min.js', (req, res) => res.sendFile(path.join(__dirname, 'node_modules/auth0-js/build/auth0.min.js')));
 
 /**
  * Primary app routes.
@@ -180,22 +179,12 @@ app.get('/api/upload', apiController.getFileUpload);
 app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
 app.get('/api/google-maps', apiController.getGoogleMaps);
 
-/*
-app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_location'] }));
-app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect(req.session.returnTo || '/');
-});
-*/
 app.get('/auth/callback', passport.authenticate('auth0', { failureRedirect: '/login' }), (req, res) => {
   if (!req.user) {
     throw new Error('user null');
   }
   console.log(req.user);
   res.redirect('/account');
-});
-app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
-app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect(req.session.returnTo || '/');
 });
 
 app.get('/.well-known/acme-challenge/:acmeToken', (req, res) => {
