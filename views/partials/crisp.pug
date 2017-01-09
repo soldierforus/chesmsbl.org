@@ -1,2 +1,10 @@
 script(type="text/javascript").
     $crisp=[];CRISP_WEBSITE_ID="49267150-96ae-4149-a14f-99b9fa7a79e6";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.im/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
+    var user = "#{JSON.stringify(user)}";
+
+    if (user) {
+        user = user.replace(/&quot;/g, '"');
+        user = JSON.parse(user);
+        $crisp.push(["set", "user:email", user.email]);
+        $crisp.push(["set", "user:nickname", user.nickname]);
+    }
