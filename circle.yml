@@ -4,6 +4,12 @@ machine:
   environment:
     YARN_VERSION: 0.18.1
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+    AUTH0_CALLBACK_URL: "https://chesmsbl.org/auth/callback"
+    AUTH0_DOMAIN: "chesmsbl.auth0.com"
+    DATABASE_URL: "postgres://ubuntu:@127.0.0.1:5432/circle_test"
+    NEW_RELIC_APP_NAME: "chesmsbl-org"
+    NEW_RELIC_LOG: "stdout"
+    NEW_RELIC_NO_CONFIG_FILE: true
 dependencies:
   pre:
     - |
