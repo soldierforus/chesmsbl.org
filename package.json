@@ -9,8 +9,8 @@
   "author": "Stephen G. Friend",
   "license": "MIT",
   "scripts": {
-    "start": "node app.js",
-    "start:dev": "./node_modules/.bin/gulp",
+    "start": "./node_modules/.bin/gulp",
+    "start:prod": "node app.js",
     "test": "mocha --reporter spec"
   },
   "engines": {
@@ -32,6 +32,7 @@
     "express-session": "^1.14.2",
     "express-status-monitor": "^0.1.5",
     "express-validator": "^2.21.0",
+    "ldclient-node": "3.0.6",
     "lodash": "^4.16.6",
     "lusca": "^1.4.1",
     "mongoose": "^4.6.6",

@@ -21,7 +21,9 @@ const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 const rollbar = require('rollbar');
+const LaunchDarkly = require('ldclient-node');
 
+const client = LaunchDarkly.init('sdk-628189ca-6926-4225-9e3c-eef478904618');
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
 /**
@@ -71,6 +73,8 @@ mongoose.connection.on('error', (err) => {
  * Express configuration.
  */
 app.locals.env = process.env;
+app.locals.ldclient = client;
+
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -171,10 +175,6 @@ app.get('/organization', comingSoonController.index);
 app.get('/api', apiController.getApi);
 app.get('/api/stripe', apiController.getStripe);
 app.post('/api/stripe', apiController.postStripe);
-app.get('/api/facebook', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
-app.get('/api/paypal', apiController.getPayPal);
-app.get('/api/paypal/success', apiController.getPayPalSuccess);
-app.get('/api/paypal/cancel', apiController.getPayPalCancel);
 app.get('/api/upload', apiController.getFileUpload);
 app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
 app.get('/api/google-maps', apiController.getGoogleMaps);
@@ -225,10 +225,12 @@ if (process.env.NODE_ENV === 'development') {
 /**
  * Start Express server.
  */
-app.listen(app.get('port'), () => {
-  console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
+client.once('ready', () => {
+  app.listen(app.get('port'), () => {
+    console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
 
-  console.log('  Press CTRL-C to stop\n');
+    console.log('  Press CTRL-C to stop\n');
+  });
 });
 
 module.exports = app;
